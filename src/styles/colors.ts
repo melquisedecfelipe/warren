@@ -1,22 +1,25 @@
+const background = '#121212'
+const backgroundInput = '#282828'
+const border = '#181818'
+const text = '#aaa'
+const title = '#fff'
+
 const wheel = {
-  green: '#05c46b',
-  greenSecondary: '#0be881',
-  red: '#ff3f34',
-  redSecondary: '#ff5e57',
-  yellow: '#ffd32a',
-  yellowSecondary: '#ffdd59',
-  gray: '#f6f6f6',
-  black: '#111'
+  blue: '#1f3a93',
+  blueSecondary: '#466ae0',
+  green: '#00e640',
+  greenSecondary: '#19ff5b',
+  red: '#f03434',
+  redSecondary: '#ff5252',
+  yellow: '#f5e51b',
+  yellowSecondary: '#fff236'
 }
 
-const primary = '#000'
-const secondary = '#fff'
-
-const error = ''
-
 export default {
-  wheel,
-  primary,
-  secondary,
-  error
+  background,
+  backgroundInput,
+  border,
+  text,
+  title,
+  wheel
 }

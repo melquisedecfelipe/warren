@@ -5,33 +5,42 @@ const GlobalStyles = createGlobalStyle(
     * {
       margin: 0;
       box-sizing: border-box;
-      color: ${colors.primary};
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Roboto', sans-serif;
       scroll-behavior: smooth;
     }
 
     h1 {
       font-size: ${size(5)};
+      color: ${colors.title};
+      font-weight: 700;
     }
 
     h2 {
       font-size: ${size(3)};
+      color: ${colors.title};
+      font-weight: 700;
     }
 
     h3 {
       font-size: ${size(2.5)};
+      color: ${colors.title};
+      font-weight: 700;
     }
 
     h4 {
       font-size: ${size(2)};
+      color: ${colors.title};
+      font-weight: 700;
     }
 
     p {
       font-size: ${size(2)};
+      color: ${colors.text};
     }
 
     small {
       font-size: ${size(1.5)};
+      color: ${colors.text};
     }
 
     ${media.tablet(css`
@@ -48,9 +57,21 @@ const GlobalStyles = createGlobalStyle(
       }
     `)};
 
-    a,
-    button {
+    a {
       cursor: pointer;
+      text-decoration: none;
+    }
+
+    button {
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    input:focus,
+    select:focus,
+    button:focus {
+      outline: none;
     }
   `
 )
