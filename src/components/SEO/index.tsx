@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Head from 'next/head'
 
 interface SEOProps {
@@ -9,14 +10,14 @@ interface SEOProps {
   shouldIndexPage?: boolean
 }
 
-export default function SEO({
+const SEO = ({
   title,
   description,
   image,
   shouldExcludeTitleSuffix = false,
   shouldIndexPage = true
-}: SEOProps) {
-  const pageTitle = `${title} ${!shouldExcludeTitleSuffix ? '| Refactor' : ''}`
+}: SEOProps) => {
+  const pageTitle = `${title} ${!shouldExcludeTitleSuffix ? '| Warren' : ''}`
 
   return (
     <Head>
@@ -30,8 +31,8 @@ export default function SEO({
       <meta httpEquiv="x-ua-compatible" content="IE=edge,chrome=1" />
       <meta name="MobileOptimized" content="320" />
       <meta name="HandheldFriendly" content="True" />
-      <meta name="theme-color" content="#05c46b" />
-      <meta name="msapplication-TileColor" content="#05c46b" />
+      <meta name="theme-color" content="#1f3a93" />
+      <meta name="msapplication-TileColor" content="#1f3a93" />
       <meta name="referrer" content="no-referrer-when-downgrade" />
       <meta name="google" content="notranslate" />
 
@@ -57,3 +58,5 @@ export default function SEO({
     </Head>
   )
 }
+
+export default SEO

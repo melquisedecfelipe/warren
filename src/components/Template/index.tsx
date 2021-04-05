@@ -1,13 +1,12 @@
 import React from 'react'
 
-import { ContainerTemplate } from './styles'
+import { ContainerTemplate, Hero } from './styles'
 
 import Loading from '../Loading'
+import SignInButton from '../SignInButton'
 
 interface TemplateProps {
-  image?: string
   loading?: boolean
-  title?: string
 }
 
 const Template: React.FC<TemplateProps> = ({ loading, children }) => {
@@ -15,7 +14,17 @@ const Template: React.FC<TemplateProps> = ({ loading, children }) => {
     <ContainerTemplate>
       <Loading loading={loading} />
 
-      <main>{children}</main>
+      <Hero>
+        <section>
+          <h1>A bank from dev to dev</h1>
+          <h3>Um novo jeito de fazer transferências e pagamentos</h3>
+
+          <SignInButton />
+        </section>
+        <img src="/static/money.jpg" alt="Money Image" />
+      </Hero>
+
+      <section>{children}</section>
     </ContainerTemplate>
   )
 }

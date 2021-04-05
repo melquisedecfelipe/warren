@@ -1,28 +1,28 @@
 import React, { ButtonHTMLAttributes } from 'react'
 
-import { ContainerButton } from './styles'
+import { ButtonContainer } from './styles'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  isActive?: boolean
-  isDisable?: boolean
-  isOutline?: boolean
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  hasStyle?: 'button' | 'outline' | 'link' | 'icon'
+  isLoading?: boolean
 }
 
 const Button: React.FC<ButtonProps> = ({
-  isActive = false,
-  isDisable = false,
-  isOutline = false,
   children,
+  hasStyle,
+  isLoading,
   ...rest
-}) => (
-  <ContainerButton
-    isActive={isActive}
-    isDisable={isDisable}
-    isOutline={isOutline}
-    {...rest}
-  >
-    {children}
-  </ContainerButton>
-)
+}) => {
+  return (
+    <ButtonContainer
+      type="button"
+      disabled={isLoading}
+      hasStyle={hasStyle}
+      {...rest}
+    >
+      {children}
+    </ButtonContainer>
+  )
+}
 
 export default Button
