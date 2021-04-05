@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiArrowDown, FiArrowUp, FiDollarSign } from 'react-icons/fi'
 
 import { useSession } from 'next-auth/client'
@@ -37,6 +37,8 @@ import {
 import dolar from '../../static/dolar.jpg'
 
 export default function Films() {
+  const [loading, setLoading] = useState(false)
+
   const {
     isShowing: extractModalShowing,
     handleToggle: extractModalToggle
@@ -52,6 +54,8 @@ export default function Films() {
 
   const getTransaction = useRecoilCallback(
     ({ set }) => async () => {
+      setLoading(true)
+
       try {
         const { data } = await api.get<GetUserTransactions>('/user')
 
@@ -63,6 +67,8 @@ export default function Films() {
         set(transactionsAtom, transactions)
       } catch (error) {
         console.log({ error })
+      } finally {
+        setLoading(false)
       }
     },
     []
@@ -75,7 +81,7 @@ export default function Films() {
   }, [session])
 
   return (
-    <Template>
+    <Template loading={loading}>
       <SEO title="Home" />
 
       <HomeContainer hasSession={!!session}>
