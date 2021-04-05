@@ -16,7 +16,7 @@ const Template: React.FC<TemplateProps> = ({ loading, children }) => {
 
       <Hero>
         <section>
-          <h1>A bank from dev to dev</h1>
+          <h1>Um banco de dev pra dev</h1>
           <h3>Um novo jeito de fazer transferências e pagamentos</h3>
 
           <SignInButton />
