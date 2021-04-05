@@ -10,11 +10,10 @@ const nextConfigWithPWA = withPWA({
     autoPrerender: false,
   },
   env: {
-    FILM_KEY: process.env.FILM_KEY,
-    FILM_POSTER: process.env.FILM_POSTER,
-    FILM_URL: process.env.FILM_URL,
-    GOOGLE_ADSENSE: process.env.GOOGLE_ADSENSE,
+    GITHUB_ID: process.env.GITHUB_ID,
+    GITHUB_SECRET: process.env.GITHUB_SECRET,
     GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
+    MONGO_URL: process.env.MONGO_URL,
   },
 })
 
