@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Document, {
   DocumentInitialProps,
   DocumentContext,
@@ -8,9 +9,9 @@ import Document, {
   NextScript
 } from 'next/document'
 
-import { GOOGLE_ANALYTICS } from '../services/analytics'
-
 import { ServerStyleSheet } from 'styled-components'
+
+import { GOOGLE_ANALYTICS } from '../services/analytics'
 
 export default class MyDocument extends Document {
   static async getInitialProps(
@@ -62,15 +63,10 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/static/apple-icon.png"></link>
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
             rel="stylesheet"
           />
 
-          <script
-            data-ad-client={process.env.GOOGLE_ADSENSE}
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          ></script>
           <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS}`}

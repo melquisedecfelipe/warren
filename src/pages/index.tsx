@@ -1,119 +1,146 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect } from 'react'
+import { FiArrowDown, FiArrowUp, FiDollarSign } from 'react-icons/fi'
 
-import { useFilm } from '@/hooks/film'
+import { useSession } from 'next-auth/client'
+import { useRecoilCallback, useRecoilValue } from 'recoil'
+import {
+  inputAtom,
+  outputAtom,
+  totalAtom,
+  transactionsAtom,
+  valuesSelector
+} from 'recoil/transaction'
 
-import { FilmsContainer } from '@/styles/pages/Films'
+import Button from 'components/Button'
+import ExtractModal from 'components/ExtractModal'
+import SEO from 'components/SEO'
+import Template from 'components/Template'
+import TransactionModal from 'components/TransactionModal'
 
-import FilmCard from '@/components/FilmCard'
-import Paginate from '@/components/Paginate'
-import Template from '@/components/Template'
-import SEO from '@/components/SEO'
+import useModal from 'hooks/useModal'
 
-interface Film {
-  id: number
-  title: string
-  overview: string
-  release_date: string
-  poster_path: string
-}
+import { api } from 'services/api'
+
+import { moneyFormat } from 'utils/format'
+
+import { GetUserTransactions } from 'types'
+
+import colors from 'styles/colors'
+import {
+  HomeContainer,
+  Header,
+  Actions,
+  Transactions,
+  Card
+} from 'styles/pages/Home'
+
+import dolar from '../../static/dolar.jpg'
 
 export default function Films() {
-  const { films, loading, pages: apiTotalPage, getFilms } = useFilm()
+  const {
+    isShowing: extractModalShowing,
+    handleToggle: extractModalToggle
+  } = useModal()
+  const {
+    isShowing: transactionModalShowing,
+    handleToggle: transactionModalToggle
+  } = useModal()
 
-  const [page, setPage] = useState(1)
+  const values = useRecoilValue(valuesSelector)
 
-  const [pages, setPages] = useState([])
+  const [session] = useSession()
 
-  const totalPage = useMemo(() => apiTotalPage, [apiTotalPage])
-  const buttons = useMemo(() => 5, [])
+  const getTransaction = useRecoilCallback(
+    ({ set }) => async () => {
+      try {
+        const { data } = await api.get<GetUserTransactions>('/user')
 
-  useEffect(() => {
-    const localStoragePage = parseInt(
-      localStorage.getItem('@Refactor:lastPage')
-    )
+        const { input, output, total, transactions } = data
 
-    if (localStoragePage) {
-      setPage(localStoragePage)
-    }
-  }, [])
-
-  useEffect(() => {
-    let maximumLeft = page - Math.floor(buttons / 2)
-    let minimumRight = page + Math.floor(buttons / 2)
-
-    if (maximumLeft < 1) {
-      maximumLeft = 1
-      minimumRight = 5
-    }
-
-    if (minimumRight > totalPage) {
-      maximumLeft = totalPage - (buttons - 1)
-      minimumRight = totalPage
-
-      if (maximumLeft < 1) maximumLeft = 1
-    }
-
-    const totalPages = []
-
-    for (let page = maximumLeft; page <= minimumRight; page++) {
-      totalPages.push(page)
-    }
-
-    setPages(totalPages)
-  }, [page, totalPage])
+        set(inputAtom, input)
+        set(outputAtom, output)
+        set(totalAtom, total)
+        set(transactionsAtom, transactions)
+      } catch (error) {
+        console.log({ error })
+      }
+    },
+    []
+  )
 
   useEffect(() => {
-    getFilms(page)
-
-    window.scrollTo(0, 0)
-  }, [page])
-
-  const goToPage = useCallback((page: number) => {
-    localStorage.setItem('@Refactor:lastPage', page.toString())
-
-    setPage(page)
-  }, [])
-
-  const nextPage = useCallback(() => {
-    const enable = page < totalPage - 1
-
-    if (enable) goToPage(page + 1)
-  }, [page, totalPage])
-
-  const previousPage = useCallback(() => {
-    const enable = page >= 1
-
-    if (enable) goToPage(page - 1)
-  }, [page, totalPage])
+    if (session) {
+      getTransaction()
+    }
+  }, [session])
 
   return (
-    <Template loading={loading}>
-      <SEO title="Filmes" />
+    <Template>
+      <SEO title="Home" />
 
-      <FilmsContainer>
-        <div>
-          <h2>Filmes</h2>
-          <p>Fique por dentro dos últimos filmes.</p>
-        </div>
+      <HomeContainer hasSession={!!session}>
+        <Header>
+          <div>
+            <h3>Sua conta</h3>
+            <p>Veja como e onde tem gastado seu dinheiro.</p>
+          </div>
 
-        <section>
-          {loading ? (
-            <h3>Carregando...</h3>
-          ) : (
-            films.map((film: Film) => <FilmCard key={film.id} film={film} />)
-          )}
-        </section>
+          <Actions>
+            <Button hasStyle="link" onClick={() => extractModalToggle()}>
+              Extrato
+            </Button>
+            <Button hasStyle="outline" onClick={() => transactionModalToggle()}>
+              Adicionar nova transação
+            </Button>
+          </Actions>
+        </Header>
 
-        {!!pages.length && (
-          <Paginate
-            currentPage={page}
-            nextPage={nextPage}
-            pages={pages}
-            previousPage={previousPage}
-            setPage={goToPage}
-          />
-        )}
-      </FilmsContainer>
+        <Transactions>
+          <div>
+            <Card
+              background={`linear-gradient(30deg, ${colors.wheel.green}, ${colors.wheel.greenSecondary})`}
+            >
+              <header>
+                <p>Entrada</p>
+                <FiArrowUp />
+              </header>
+              <h2 title={moneyFormat(values.output || 0)}>
+                {moneyFormat(values.input || 0)}
+              </h2>
+            </Card>
+            <Card
+              background={`linear-gradient(30deg, ${colors.wheel.red}, ${colors.wheel.redSecondary})`}
+            >
+              <header>
+                <p>Saida</p>
+                <FiArrowDown />
+              </header>
+              <h2 title={moneyFormat(values.output || 0)}>
+                {moneyFormat(values.output || 0)}
+              </h2>
+            </Card>
+          </div>
+          <Card
+            background={`linear-gradient(-30deg, rgba(31, 58, 147, 0.7), rgba(70, 106, 224, 0.5)), url(${dolar});`}
+          >
+            <header>
+              <p>Total</p>
+              <FiDollarSign />
+            </header>
+            <h2 title={moneyFormat(values.output || 0)}>
+              {moneyFormat(values.total || 0)}
+            </h2>
+          </Card>
+        </Transactions>
+      </HomeContainer>
+
+      {extractModalShowing && (
+        <ExtractModal handleToggle={() => extractModalToggle()} />
+      )}
+
+      {transactionModalShowing && (
+        <TransactionModal handleToggle={() => transactionModalToggle()} />
+      )}
     </Template>
   )
 }
