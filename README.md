@@ -13,6 +13,7 @@ This project was developed with the following technologies:
 
 - [Eslint](https://eslint.org/)
 - [Jest](https://jestjs.io/)
+- [Mongo](https://www.mongodb.com/)
 - [Next](https://nextjs.org/)
 - [React](https://reactjs.org)
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
