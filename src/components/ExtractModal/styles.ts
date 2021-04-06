@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-export const Table = styled.form(
+export const Table = styled.div(
   ({ theme: { colors, size } }) => css`
     display: flex;
     overflow: auto;
