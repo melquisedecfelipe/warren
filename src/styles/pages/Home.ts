@@ -4,9 +4,6 @@ interface HomeContainerProps {
   hasSession: boolean
 }
 
-interface CardProps {
-  background: string
-}
 export const HomeContainer = styled.div<HomeContainerProps>(
   ({ theme: { colors, size }, hasSession }) => css`
     flex: 1;
@@ -82,37 +79,6 @@ export const Transactions = styled.section(
         display: grid;
         grid-gap: ${size(3)};
         grid-template-columns: repeat(2, 1fr);
-      }
-    }
-  `
-)
-
-export const Card = styled.section<CardProps>(
-  ({ theme: { colors, size }, background }) => css`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background: ${background};
-    background-size: cover;
-    min-height: 150px;
-    height: 100%;
-    width: 100%;
-    border-radius: ${size(0.5)};
-    padding: ${size(3)};
-
-    > header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      > p {
-        color: ${colors.title};
-      }
-
-      > svg {
-        height: 40px;
-        width: 40px;
-        color: ${colors.title};
       }
     }
   `
