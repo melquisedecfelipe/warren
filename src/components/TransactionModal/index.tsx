@@ -31,7 +31,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
   const total = useRecoilValue(totalAtom)
 
   const errorMessage = useMemo(() => {
-    if (Number(value) <= 0) {
+    if (!!value && Number(value) <= 0) {
       return `Valor ${value} inválido.`
     }
 
