@@ -31,6 +31,10 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
   const total = useRecoilValue(totalAtom)
 
   const errorMessage = useMemo(() => {
+    if (Number(value) <= 0) {
+      return `Valor ${value} inválido.`
+    }
+
     if ((type === 'Resgate' || type === 'Pagamento') && total < Number(value)) {
       return `Valor do ${type} maior que o valor total em conta.`
     }
